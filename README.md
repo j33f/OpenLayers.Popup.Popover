@@ -33,4 +33,4 @@ Usage
 Example
 =======
 
-In action, the popup looks like this : 
+In action, the popup looks like this : https://github.com/Modulaweb/OpenLayers.Popup.Popover/blob/master/example.png
