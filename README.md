@@ -12,25 +12,26 @@ Usage
 =====
 
 1. add the js file wherever you want
-2. add this piece of CSS to your stylesheet <code>.popover-title span {
-  		display:block;
-			float: left;
-			width: 236px; 
-		}</code>
+2. add this piece of CSS to your stylesheet <pre><code>.popover-title span {
+display:block;
+	float: left;
+	width: 236px; 
+}</code></pre>
 3. test and tweak both the CSS (width) and the dimension and delta properties in the js file
-4. In your script, when you want to create a popup, use the follong code <code>	var popup = new OpenLayers.Popup.Popover(
-		"popup",
-		lonlat,
-		"The popup content",
-		"The popup title !",
-		function(){
-			/* this is the close popup callback function */
-		}
-	);
-</code>
+4. In your script, when you want to create a popup, use the follong code <pre><code>var popup = new OpenLayers.Popup.Popover(
+	"popup",
+	lonlat,
+	"The popup content",
+	"The popup title !",
+	function(){
+		/* this is the close popup callback function */
+	}
+);
+</code></pre>
 5. enjoy
 
 Example
 =======
 
-In action, the popup looks like this : ![ ] (https://raw.github.com/Modulaweb/OpenLayers.Popup.Popover/master/example.png)
+In action, the popup looks like this :
+![ ] (https://raw.github.com/Modulaweb/OpenLayers.Popup.Popover/master/example.png)
