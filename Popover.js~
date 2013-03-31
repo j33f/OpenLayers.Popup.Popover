@@ -40,11 +40,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *  - <OpenLayers.Popup.Framed>
  */
 OpenLayers.Popup.Popover = 
-	OpenLayers.Class(OpenLayers.Popup.Framed, {
-	autoSize: true,
-	panMapIfOutOfView: true,
-	fixedRelativePosition: false,
-	title:'',
+  OpenLayers.Class(OpenLayers.Popup.Framed, {
+    autoSize: true,
+    panMapIfOutOfView: true,
+    fixedRelativePosition: false,
+  title:'',
 	popupHTML: '',
 	// delta is about to adjust the popup position vs the marker
 	delta:  {	// }
@@ -58,56 +58,56 @@ OpenLayers.Popup.Popover =
 	},
 	/*
 	In order to display things right, you will need to add (and adapt) this piece of css :
-	.popover-title span {
-		display:block;
-		float: left;
-		width: 236px; 
-	}
-	*/
-	initialize:function(id, lonlat, contentHTML, title, closeBoxCallback) {
-		arguments = [
-			id, lonlat, new OpenLayers.Size(0, 0), contentHTML, null, false, closeBoxCallback    	
-		];
-		OpenLayers.Popup.Framed.prototype.initialize.apply(this, arguments);
-		this.title = title;
-		this.contentDiv.className = this.contentDisplayClass;
-	},
-	draw: function(px) {
-		this.map.paddingForPopups.bottom = 100;
-		if (px == null) {
-			if ((this.lonlat != null) && (this.map != null)) {
-				px = this.map.getLayerPxFromLonLat(this.lonlat);
-			}
+		.popover-title span {
+			display:block;
+			float: left;
+			width: 236px; 
 		}
-
-		this.popupHTML = '<div id="'+this.id+'" class="popover fade top in" style="position:absolute;z-index:100000000; top: '+(px.y - this.dimensions.h + this.delta.y)+'px; left: '+(px.x - Math.ceil(this.dimensions.w/2) + this.delta.x)+'px; display: block;width:'+ this.dimensions.w+'px;height:'+ this.dimensions.h+'px;">'
-							+'<div class="arrow"></div>'
-							+'<h3 class="popover-title"><button class="close">&times;</button><span>'+this.title+'</span><div class="clearfix"></div></h3>'
-							+'<div class="popover-content">'
-							+'<p>'+ this.contentHTML + '</p></div></div>';
+	*/
+    initialize:function(id, lonlat, contentHTML, title, closeBoxCallback) {
+    	arguments = [
+			id, lonlat, new OpenLayers.Size(0, 0), contentHTML, null, false, closeBoxCallback    	
+    	];
+        OpenLayers.Popup.Framed.prototype.initialize.apply(this, arguments);
+        this.title = title;
+        this.contentDiv.className = this.contentDisplayClass;
+    },
+    draw: function(px) {
+        this.map.paddingForPopups.bottom = 100;
+        if (px == null) {
+            if ((this.lonlat != null) && (this.map != null)) {
+                px = this.map.getLayerPxFromLonLat(this.lonlat);
+            }
+        }
+        
+        this.popupHTML = '<div id="'+this.id+'" class="popover fade top in" style="position:absolute;z-index:100000000; top: '+(px.y - this.dimensions.h + this.delta.y)+'px; left: '+(px.x - Math.ceil(this.dimensions.w/2) + this.delta.x)+'px; display: block;width:'+ this.dimensions.w+'px;height:'+ this.dimensions.h+'px;">'
+							   +'<div class="arrow"></div>'
+							   +'<h3 class="popover-title"><button class="close">&times;</button><span>'+this.title+'</span><div class="clearfix"></div></h3>'
+							   +'<div class="popover-content">'
+							   +'<p>'+ this.contentHTML + '</p></div></div>';
 
 		this.size = this.getRenderedDimensions();
-		var p = $(this.popupHTML);
+   		var p = $(this.popupHTML);
 		this.div = p[0];
-
-		if (this.panMapIfOutOfView) {
-			this.panIntoView();
-		}    
+		
+        if (this.panMapIfOutOfView) {
+            this.panIntoView();
+        }    
 		return this.div;
-	},
-	getRenderedDimensions: function() {
-		$(this.popupHTML).css({top: -999999, left: -99999}).appendTo('body');
-		var w = $('#'+this.id).outerWidth();
-		var h = $('#'+this.id).outerHeight();
-		$('#'+this.id).remove();
-		return new OpenLayers.Size(w, h);
-	},
-	destroy: function() {},
-	calculateNewPx:function(px) {
-		var newPx = OpenLayers.Popup.Anchored.prototype.calculateNewPx.apply(
-			this, arguments
-		);
-		return newPx;
-	},
-	CLASS_NAME: "OpenLayers.Popup.Popover"
+    },
+    getRenderedDimensions: function() {
+    	$(this.popupHTML).css({top: -999999, left: -99999}).appendTo('body');
+    	var w = $('#'+this.id).outerWidth();
+    	var h = $('#'+this.id).outerHeight();
+    	$('#'+this.id).remove();
+    	return new OpenLayers.Size(w, h);
+    },
+    destroy: function() {},
+	  calculateNewPx:function(px) {
+        var newPx = OpenLayers.Popup.Anchored.prototype.calculateNewPx.apply(
+            this, arguments
+        );
+        return newPx;
+    },
+    CLASS_NAME: "OpenLayers.Popup.Popover"
 });
