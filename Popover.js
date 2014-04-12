@@ -97,11 +97,11 @@ OpenLayers.Popup.Popover =
 							+'<div class="popover-content">'
 							+'<p>'+ this.contentHTML + '</p></div></div>';
 		
-		var closeCallback = this.closeCallback;
+		var popup = this;
 		$(this.popupHTML).ready(function() {
 			$(this).find(".close").on("click", function() {
-				$(this).closest(".popover").hide();
-				closeCallback();
+				popup.hide();
+				popup.closeCallback();
 			});
 		});
 
@@ -121,7 +121,7 @@ OpenLayers.Popup.Popover =
 		$('#'+this.id).remove();
 		return new OpenLayers.Size(w, h);
 	},
-	destroy: function() {},
+
 	calculateNewPx:function(px) {
 		var newPx = OpenLayers.Popup.Anchored.prototype.calculateNewPx.apply(
 			this, arguments
