@@ -27,6 +27,8 @@ Usage
 		function(){
 			/* this is the close popup callback function */
 		}
+		
+		map.addPopup(popup);
 );
 </code></pre>
 6. enjoy
