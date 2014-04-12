@@ -128,5 +128,10 @@ OpenLayers.Popup.Popover =
 		);
 		return newPx;
 	},
+	
+	calculateRelativePosition: function() {
+		return "tr";
+	},
+	
 	CLASS_NAME: "OpenLayers.Popup.Popover"
 });
