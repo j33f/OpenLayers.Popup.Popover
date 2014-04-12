@@ -40,7 +40,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *  - <OpenLayers.Popup.Framed>
  */
 OpenLayers.Popup.Popover = 
-	OpenLayers.Class(OpenLayers.Popup.Framed, {
+	OpenLayers.Class(OpenLayers.Popup.Anchored, {
 	autoSize: true,
 	panMapIfOutOfView: true,
 	fixedRelativePosition: false,
@@ -66,12 +66,22 @@ OpenLayers.Popup.Popover =
 	*/
 	initialize:function(id, lonlat, contentHTML, title, closeBoxCallback) {
 		arguments = [
-			id, lonlat, new OpenLayers.Size(0, 0), contentHTML, null, false, closeBoxCallback    	
-		];
-		OpenLayers.Popup.Framed.prototype.initialize.apply(this, arguments);
+ 			id,
+ 			lonlat,
+ 			new OpenLayers.Size(0, 0),
+ 			contentHTML,
+ 			{
+ 				size: new OpenLayers.Size(0, 0),
+ 				offset: new OpenLayers.Pixel(-(this.dimensions.w / 2) + this.delta.x, this.delta.y)
+ 			}, 
+ 			false,
+ 			closeBoxCallback    	
+ 		];
+		OpenLayers.Popup.Anchored.prototype.initialize.apply(this, arguments);
 		this.title = title;
 		this.contentDiv.className = this.contentDisplayClass;
 	},
+	
 	draw: function(px) {
 		this.map.paddingForPopups.bottom = 100;
 		if (px == null) {
@@ -95,6 +105,7 @@ OpenLayers.Popup.Popover =
 		}    
 		return this.div;
 	},
+	
 	getRenderedDimensions: function() {
 		$(this.popupHTML).css({top: -999999, left: -99999}).appendTo('body');
 		var w = $('#'+this.id).outerWidth();
@@ -102,12 +113,15 @@ OpenLayers.Popup.Popover =
 		$('#'+this.id).remove();
 		return new OpenLayers.Size(w, h);
 	},
+	
 	destroy: function() {},
+	
 	calculateNewPx:function(px) {
 		var newPx = OpenLayers.Popup.Anchored.prototype.calculateNewPx.apply(
 			this, arguments
 		);
 		return newPx;
 	},
+	
 	CLASS_NAME: "OpenLayers.Popup.Popover"
 });
