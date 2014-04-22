@@ -40,7 +40,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *  - <OpenLayers.Popup.Framed>
  */
 OpenLayers.Popup.Popover = 
-	OpenLayers.Class(OpenLayers.Popup.Framed, {
+	OpenLayers.Class(OpenLayers.Popup.Anchored, {
 	autoSize: true,
 	panMapIfOutOfView: true,
 	fixedRelativePosition: false,
@@ -56,6 +56,7 @@ OpenLayers.Popup.Popover =
 		w: 300,		// } ← TWEAK THESE TO FEAT YOUR NEEDS !
 		h: 200		// }
 	},
+	closeCallback: null,
 	/*
 	In order to display things right, you will need to add (and adapt) this piece of css :
 	.popover-title span {
@@ -66,11 +67,21 @@ OpenLayers.Popup.Popover =
 	*/
 	initialize:function(id, lonlat, contentHTML, title, closeBoxCallback) {
 		arguments = [
-			id, lonlat, new OpenLayers.Size(0, 0), contentHTML, null, false, closeBoxCallback    	
-		];
-		OpenLayers.Popup.Framed.prototype.initialize.apply(this, arguments);
+ 			id,
+ 			lonlat,
+ 			new OpenLayers.Size(0, 0),
+ 			contentHTML,
+ 			{
+ 				size: new OpenLayers.Size(0, 0),
+ 				offset: new OpenLayers.Pixel(-(this.dimensions.w / 2) + this.delta.x, this.delta.y)
+ 			}, 
+ 			false,
+ 			closeBoxCallback    	
+ 		];
+		OpenLayers.Popup.Anchored.prototype.initialize.apply(this, arguments);
 		this.title = title;
 		this.contentDiv.className = this.contentDisplayClass;
+		this.closeCallback = closeBoxCallback || function() {};
 	},
 	draw: function(px) {
 		this.map.paddingForPopups.bottom = 100;
@@ -85,6 +96,14 @@ OpenLayers.Popup.Popover =
 							+'<h3 class="popover-title"><button class="close">&times;</button><span>'+this.title+'</span><div class="clearfix"></div></h3>'
 							+'<div class="popover-content">'
 							+'<p>'+ this.contentHTML + '</p></div></div>';
+		
+		var popup = this;
+		$(this.popupHTML).ready(function() {
+			$(this).find(".close").on("click", function() {
+				popup.hide();
+				popup.closeCallback();
+			});
+		});
 
 		this.size = this.getRenderedDimensions();
 		var p = $(this.popupHTML);
@@ -102,12 +121,17 @@ OpenLayers.Popup.Popover =
 		$('#'+this.id).remove();
 		return new OpenLayers.Size(w, h);
 	},
-	destroy: function() {},
+
 	calculateNewPx:function(px) {
 		var newPx = OpenLayers.Popup.Anchored.prototype.calculateNewPx.apply(
 			this, arguments
 		);
 		return newPx;
 	},
+	
+	calculateRelativePosition: function() {
+		return "tr";
+	},
+	
 	CLASS_NAME: "OpenLayers.Popup.Popover"
 });
